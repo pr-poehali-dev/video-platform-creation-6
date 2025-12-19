@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import VideoCard from '@/components/VideoCard';
+import VideoPlayer from '@/components/VideoPlayer';
 import Splash from '@/components/Splash';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ export default function Index() {
   const [showSplash, setShowSplash] = useState(true);
   const [currentPage, setCurrentPage] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedVideo, setSelectedVideo] = useState<any>(null);
 
   if (showSplash) {
     return <Splash onComplete={() => setShowSplash(false)} />;
@@ -27,6 +29,8 @@ export default function Index() {
       uploadTime: '2 дня назад',
       duration: '15:30',
       isSubscribed: false,
+      description: 'В этом видео мы разберем все секреты создания вирусного контента в социальных сетях. Узнаете проверенные методы и стратегии.',
+      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
     },
     {
       id: '2',
@@ -38,6 +42,8 @@ export default function Index() {
       uploadTime: '5 дней назад',
       duration: '22:45',
       isSubscribed: true,
+      description: 'Подробный обзор самых интересных технологических новинок этого года. Тестируем и сравниваем лучшие гаджеты.',
+      videoUrl: 'https://www.w3schools.com/html/movie.mp4'
     },
     {
       id: '3',
@@ -49,6 +55,8 @@ export default function Index() {
       uploadTime: '1 неделю назад',
       duration: '45:12',
       isSubscribed: true,
+      description: 'Компиляция самых эпичных и смешных моментов из стримов за эту неделю. Не пропустите!',
+      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
     },
     {
       id: '4',
@@ -60,6 +68,8 @@ export default function Index() {
       uploadTime: '3 дня назад',
       duration: '18:20',
       isSubscribed: false,
+      description: 'Полный курс по видеомонтажу для новичков. Научитесь создавать профессиональные видео с нуля.',
+      videoUrl: 'https://www.w3schools.com/html/movie.mp4'
     },
     {
       id: '5',
@@ -71,6 +81,8 @@ export default function Index() {
       uploadTime: '1 день назад',
       duration: '12:15',
       isSubscribed: true,
+      description: 'Распаковываем и тестируем новейший флагманский смартфон. Стоит ли своих денег?',
+      videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
     },
     {
       id: '6',
@@ -82,6 +94,8 @@ export default function Index() {
       uploadTime: '4 дня назад',
       duration: '28:40',
       isSubscribed: true,
+      description: 'Лучшие моменты из мира киберспорта: невероятные камбеки, точные выстрелы и командная работа.',
+      videoUrl: 'https://www.w3schools.com/html/movie.mp4'
     },
   ];
 
@@ -92,6 +106,28 @@ export default function Index() {
   const handleSubscribe = (channelId: string) => {
     console.log('Subscribed to:', channelId);
   };
+
+  const handleVideoClick = (video: any) => {
+    setSelectedVideo(video);
+  };
+
+  if (selectedVideo) {
+    return (
+      <VideoPlayer
+        videoId={selectedVideo.id}
+        title={selectedVideo.title}
+        channel={selectedVideo.channel}
+        channelAvatar={selectedVideo.channelAvatar}
+        views={selectedVideo.views}
+        uploadTime={selectedVideo.uploadTime}
+        description={selectedVideo.description}
+        videoUrl={selectedVideo.videoUrl}
+        isSubscribed={selectedVideo.isSubscribed}
+        onClose={() => setSelectedVideo(null)}
+        onSubscribe={() => handleSubscribe(selectedVideo.id)}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -148,7 +184,7 @@ export default function Index() {
                         key={video.id}
                         style={{ animationDelay: `${index * 100}ms` }}
                       >
-                        <VideoCard {...video} onSubscribe={handleSubscribe} />
+                        <VideoCard {...video} onSubscribe={handleSubscribe} onClick={() => handleVideoClick(video)} />
                       </div>
                     ))}
                   </div>
@@ -168,7 +204,7 @@ export default function Index() {
                       key={video.id}
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <VideoCard {...video} onSubscribe={handleSubscribe} />
+                      <VideoCard {...video} onSubscribe={handleSubscribe} onClick={() => handleVideoClick(video)} />
                     </div>
                   ))}
                 </div>
@@ -181,7 +217,7 @@ export default function Index() {
                       key={video.id}
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <VideoCard {...video} onSubscribe={handleSubscribe} />
+                      <VideoCard {...video} onSubscribe={handleSubscribe} onClick={() => handleVideoClick(video)} />
                     </div>
                   ))}
                 </div>
@@ -194,7 +230,7 @@ export default function Index() {
                       key={video.id}
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
-                      <VideoCard {...video} onSubscribe={handleSubscribe} />
+                      <VideoCard {...video} onSubscribe={handleSubscribe} onClick={() => handleVideoClick(video)} />
                     </div>
                   ))}
                 </div>

@@ -16,6 +16,7 @@ interface VideoCardProps {
   duration: string;
   isSubscribed?: boolean;
   onSubscribe?: (channelId: string) => void;
+  onClick?: () => void;
 }
 
 export default function VideoCard({
@@ -28,7 +29,8 @@ export default function VideoCard({
   uploadTime,
   duration,
   isSubscribed = false,
-  onSubscribe
+  onSubscribe,
+  onClick
 }: VideoCardProps) {
   const [subscribed, setSubscribed] = useState(isSubscribed);
   const [liked, setLiked] = useState(false);
@@ -45,7 +47,10 @@ export default function VideoCard({
   };
 
   return (
-    <Card className="group overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 animate-fade-in cursor-pointer">
+    <Card 
+      className="group overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 animate-fade-in cursor-pointer"
+      onClick={onClick}
+    >
       <div className="relative overflow-hidden">
         <img
           src={thumbnail}
